@@ -1,0 +1,18 @@
+Ubuntu 系统 使用jinfo和jmap时出现以下错误：
+Error attaching to process: sun.jvm.hotspot.debugger.DebuggerException: Can't attach to the process
+
+解决方法: 
+方法1、
+>echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope 
+该方法在下次重启前有效。 
+
+方法2、
+永久有效方法 
+sudo vi /etc/sysctl.d/10-ptrace.conf 
+编辑下面这行: 
+kernel.yama.ptrace_scope = 1 
+修改为: 
+kernel.yama.ptrace_scope = 0 
+重启系统，使修改生效。 
+
+该bug详细信息请参考官方文档: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=7050524
