@@ -88,7 +88,6 @@ chmod +x /usr/local/bin/docker-compose
 
 ~~~
 docker-compose -v
-docker version
 ~~~
 
 ##### 3.为新主机配置用于ES服务安装的Docker-Compose.yml模板文件
