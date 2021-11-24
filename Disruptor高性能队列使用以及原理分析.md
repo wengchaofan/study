@@ -40,11 +40,13 @@ Producer在RingBuffer写满时，会从头开始继续写，替换掉以前的�
 2. 若writer cursor >= n，这时仍然无法确定连续可读的最大下标。从reader cursor开始读取available Buffer，一直查到第一个不可用的元素，然后返回最大连续可读元素的位置；
 3. 消费者读取元素。
 
-<img src="image/read.png" alt="avatar"  />
-
 如下图所示，读线程读到下标为2的元素，三个线程Writer1/Writer2/Writer3正在向RingBuffer相应位置写数据，写线程被分配到的最大元素下标是11。
 
 读线程申请读取到下标从3到11的元素，判断writer cursor>=11。然后开始读取availableBuffer，从3开始，往后读取，发现下标为7的元素没有生产成功，于是WaitFor(11)返回6。
+
+<img src="image/read.png" alt="avatar"  />
+
+
 
 
 
