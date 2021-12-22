@@ -10,8 +10,6 @@
 2. 准备docker.service 系统配置文件，如下
 
 ~~~
-docker.service
-
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
@@ -20,25 +18,14 @@ Wants=network-online.target
 
 [Service]
 Type=notify
-# the default is not to use systemd for cgroups because the delegate issues still
-# exists and systemd currently does not support the cgroup feature set required
-# for containers run by docker
 ExecStart=/usr/bin/dockerd
 ExecReload=/bin/kill -s HUP $MAINPID
-# Having non-zero Limit*s causes performance problems due to accounting overhead
-# in the kernel. We recommend using cgroups to do container-local accounting.
 LimitNOFILE=infinity
 LimitNPROC=infinity
 LimitCORE=infinity
-# Uncomment TasksMax if your systemd version supports it.
-# Only systemd 226 and above support this version.
-#TasksMax=infinity
 TimeoutStartSec=0
-# set delegate yes so that systemd does not reset the cgroups of docker containers
 Delegate=yes
-# kill only the docker process, not all processes in the cgroup
 KillMode=process
-# restart the docker process if it exits prematurely
 Restart=on-failure
 StartLimitBurst=3
 StartLimitInterval=60s
@@ -71,8 +58,13 @@ docker -v
 
 4. 将安装包，docker.service 系统配置文件以及安装脚本install.sh放置在服务器同一系统目录下。
 5. 执行install.sh脚本
-6. 在GitHub下载Docker-compose对应版本的安装包，地址 https://github.com/docker/compose/releases
-7. 将[docker-compose-Linux-x86_64](https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64)文件移动到服务器/usr/local/bin/ 目录下。
+
+~~~
+./install.sh docker-19.03.0.tgz
+~~~
+
+4. 在GitHub下载Docker-compose对应版本的安装包，地址 https://github.com/docker/compose/releases
+5. 将[docker-compose-Linux-x86_64](https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64)文件移动到服务器/usr/local/bin/ 目录下。
 
 ~~~
 mv docker-compose-Linux-x86_64 /usr/local/bin/docker-compose
