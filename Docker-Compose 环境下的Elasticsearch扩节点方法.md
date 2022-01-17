@@ -145,12 +145,22 @@ docker-compose -v
 
 ![image-20211111155007201](image/es_node_config2.png)
 
-##### 6.重启ES
+##### 6.修改系统配置
 
-1. 在主节点上执行docker restart es-node1
+在新增节点上修改sysctl.conf文件   命令： vim /etc/sysctl.conf ，在最后一行添加如下：
+
+~~~
+vm.max_map_count=655360
+~~~
+
+执行 sysctl -p，让配置生效
+
+##### 7.重启ES
+
+1. 在主节点上执行docker restart es-node0
 2. 在新增节点上执行docker-compose -f /opt/es_docker-compose.yml  up -d 
 
-##### 7.验证
+##### 8.验证
 
 登录kibana，如下看到Nodes增加则扩容成功。
 
